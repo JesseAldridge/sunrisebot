@@ -57,8 +57,8 @@ def prepare_city_data():
 		for row in reader:
 			population = int(row['population'])
 			previous_sunrise, next_sunrise = sunrise_times(row['lat'], row['long'])
-			arr.append({'date': previous_sunrise, 'city': row['name'], 'population': population, 'country_code': row['country_code']})
-			arr.append({'date': next_sunrise, 'city': row['name'], 'population': population, 'country_code': row['country_code']})
+			for sunrise_date in [previous_sunrise, next_sunrise]:
+				arr.append({'date': sunrise_date, 'city': row['name'], 'population': population, 'country_code': row['country_code']})
 	return arr
 
 def generate_cute_tweet(rise_phrase, time_phrase, city, country, flag):
@@ -72,9 +72,6 @@ def generate_cute_tweet(rise_phrase, time_phrase, city, country, flag):
 
 def get_sunrise():
 	winner, previous = closest_to_sunrise(prepare_city_data())
-	city = winner['city']
-	country = get_country_name(winner['country_code'])
-	flag = to_flag(winner['country_code'])
 	current_time = datetime.utcnow()
 	time_diff = (winner['date'] - current_time).seconds
 	time_phrase = 'right now'
@@ -88,7 +85,7 @@ def get_sunrise():
 		else:
 			time_phrase = "%s minutes from now" %(time_diff//60)
 			rise_phrase = "will rise"
-	return generate_cute_tweet(rise_phrase = rise_phrase, time_phrase = time_phrase, city = city, country = country, flag = flag)
+	return generate_cute_tweet(rise_phrase, time_phrase, winner['city'], get_country_name(winner['country_code']), to_flag(winner['country_code']))
 
 
 if __name__ == "__main__":
