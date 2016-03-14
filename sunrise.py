@@ -65,9 +65,10 @@ def generate_cute_tweet(rise_phrase, time_phrase, city, country, flag):
 	emoji_beginning = "🌅🌅🌅 "
 	emoji_end = get_emoji_string()
 	greeting = random.choice(["Mornin'", "Good morning"])
-	option1 = "The sun %(rise_phrase)s above %(city)s, %(country)s %(flag)s %(time_phrase)s" % locals()
-	option2 = "%(greeting)s, %(city)s, %(country)s! %(flag)s The sun %(rise_phrase)s above you %(time_phrase)s" % locals()
-	return emoji_beginning + random.choice([option1,option2]) + emoji_end
+	phrases = ["The sun {rise_phrase} above {city}, {country} {flag} {time_phrase}".format(**locals()),
+	"{greeting}, {city}, {country}! {flag} The sun {rise_phrase} above you {time_phrase}".format(**locals()),
+	"Dawn is breaking on a new day, {city}, {country}! {flag} The sun {rise_phrase} over you {time_phrase}".format(**locals())]
+	return emoji_beginning + random.choice(phrases) + emoji_end
 
 
 def get_sunrise():
