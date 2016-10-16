@@ -47,7 +47,7 @@ def get_emoji_string():
 	rare_emoji = [' 🐓']
 	emoji_string = ' 🌞'
 	if random.randint(1,50) == 2:
-		emoji_string.append(random.choice(rare_emoji))
+		emoji_string += random.choice(rare_emoji)
 	return emoji_string
 
 def prepare_city_data():
